@@ -1,0 +1,139 @@
+const mongoose=require("mongoose")
+
+
+/**
+ * - job Description:string
+ * - resume text:String
+ * - Self Description:String
+ * 
+ * -matchScore:Number
+ * 
+ * -Technical Questions:
+ *    [{
+ *      question:"",
+ *      intention:"",
+ *       answer:""
+ *    }]
+ * -Behavioral Questions:
+ *    [{
+ *      question:"",
+ *      intention:"",
+ *       answer:""
+ *    }]
+ * -Skills gaps :
+ *    [{
+ *      skill:"",
+ *      severity:{
+*           type:String,
+            enum:["low","medium","high"]
+*       }
+ *     }]
+ * -preparation Plan :[{
+ *    day:Number
+ *    focus:String,
+ *    tasks:[String]
+ * }]
+ */
+
+const technicalQuestionSchema=new mongoose.Schema({
+  question:{
+    type:String,
+    require:true
+  },
+  intention:{
+    type:String
+  },
+  answer:{
+    type:String,
+    required:true
+  }
+},{_id:false})
+
+
+const behavioralQuestionSchema=new mongoose.Schema({
+  question:{
+    type:String,
+    require:true
+  },
+  intention:{
+    type:String
+  },
+  answer:{
+    type:String,
+    required:true
+  }
+},{_id:false})
+
+const skillGapSchema=new mongoose.Schema({
+  skill:{
+    type:String,
+    required:true
+  },
+
+  severity:{
+    type:String,
+    enum:["low","medium","hard"],
+    required:true
+  }
+},{_id:false})
+
+const preparationPlanSchema=new mongoose.Schema({
+  day:{
+    type:Number,
+    required:true,
+  },
+
+  focus:{
+    type:String,
+    required:true
+
+  },
+
+  tasks:[{
+    type:String,
+    required:true
+  }]
+
+
+},{_id:false})
+
+
+
+const interviewReportSchema=new mongoose.Schema({
+
+  jobDescription:{
+    type:String,
+    required:true
+  },
+
+  resume:{
+    type:String
+  },
+
+  selfDescription:{
+    type:String
+  },
+
+  matchScore:{
+    type:Number,
+    min:0,
+    max:100
+  },
+
+  technicalQuestions:[technicalQuestionSchema],
+
+  behavioralQuestions:[behavioralQuestionSchema],
+
+  skillGap:[skillGapSchema],
+
+  praparationPlan:[preparationPlanSchema]
+
+
+
+
+
+},{timestamps:true})
+
+const interviewReportModel=mongoose.model("InterviewReport",interviewReportSchema)
+
+module.exports=interviewReportModel
