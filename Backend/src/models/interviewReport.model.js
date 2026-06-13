@@ -38,7 +38,7 @@ const mongoose=require("mongoose")
 const technicalQuestionSchema=new mongoose.Schema({
   question:{
     type:String,
-    require:true
+    required:true
   },
   intention:{
     type:String
@@ -53,7 +53,7 @@ const technicalQuestionSchema=new mongoose.Schema({
 const behavioralQuestionSchema=new mongoose.Schema({
   question:{
     type:String,
-    require:true
+    required:true
   },
   intention:{
     type:String
@@ -72,7 +72,7 @@ const skillGapSchema=new mongoose.Schema({
 
   severity:{
     type:String,
-    enum:["low","medium","hard"],
+    enum:["low","medium","high"],
     required:true
   }
 },{_id:false})
@@ -100,6 +100,10 @@ const preparationPlanSchema=new mongoose.Schema({
 
 
 const interviewReportSchema=new mongoose.Schema({
+  userId:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"User"
+  },
 
   jobDescription:{
     type:String,
@@ -124,9 +128,9 @@ const interviewReportSchema=new mongoose.Schema({
 
   behavioralQuestions:[behavioralQuestionSchema],
 
-  skillGap:[skillGapSchema],
+  skillGaps:[skillGapSchema],
 
-  praparationPlan:[preparationPlanSchema]
+  preparationPlan:[preparationPlanSchema]
 
 
 
