@@ -5,7 +5,6 @@ const api = axios.create({
     withCredentials: true,
 })
 
-
 /**
  * @description Service to generate interview report based on user self description, resume and job description.
  */
@@ -16,7 +15,7 @@ export const generateInterviewReport = async ({ jobDescription, selfDescription,
     formData.append("selfDescription", selfDescription)
     formData.append("resume", resumeFile)
 
-    const response = await api.post("/api/interview/", formData, {
+    const response = await api.post("/api/interview/report-generate", formData, {
         headers: {
             "Content-Type": "multipart/form-data"
         }
@@ -51,9 +50,10 @@ export const getAllInterviewReports = async () => {
  * @description Service to generate resume pdf based on user self description, resume content and job description.
  */
 export const generateResumePdf = async ({ interviewReportId }) => {
-    const response = await api.post(`/api/interview/resume/pdf/${interviewReportId}`, null, {
-        responseType: "blob"
-    })
+    const response = await api.get(`/api/interview/resume/pdf/${interviewReportId}`, {
+        responseType: "blob",
+        withCredentials:true,
+    });
 
     return response.data
 }

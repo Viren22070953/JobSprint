@@ -130,7 +130,12 @@ const interviewReportSchema=new mongoose.Schema({
 
   skillGaps:[skillGapSchema],
 
-  preparationPlan:[preparationPlanSchema]
+  preparationPlan:[preparationPlanSchema],
+
+  title:{
+        type: String,
+        required: [ true, "Job title is required" ]
+  }
 
 
 

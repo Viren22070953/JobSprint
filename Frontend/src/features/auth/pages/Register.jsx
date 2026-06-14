@@ -12,9 +12,15 @@ const Register = () => {
     const {loading,handleRegister} = useAuth()
     
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        await handleRegister({username,email,password})
-        navigate("/")
+        e.preventDefault();
+        try{
+            await handleRegister({username,email,password})
+            navigate("/")
+
+        }catch(err){
+            alert(err.response?.data?.message || "Invalid email or password");
+        }
+        
     }
 
     if(loading){

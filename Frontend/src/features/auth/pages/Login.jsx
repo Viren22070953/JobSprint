@@ -17,7 +17,7 @@ const Login = () => {
             await handleLogin({ email, password });
             navigate("/");
         } catch (err) {
-            alert("Login failed");
+            alert(err.response?.data?.message || "Invalid email or password");
         }
   };
 

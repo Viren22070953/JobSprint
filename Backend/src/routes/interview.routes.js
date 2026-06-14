@@ -17,4 +17,35 @@ const router=express.Router();
 router.post('/report-generate' , authMiddleware.authUser , upload.single("resume") , interviewController.generateInterviewReportController)
 
 
+/**
+ * @route GET /api/interview/report/:interviewId
+ * @description get interview report by interviewId.
+ * @access private
+ */
+router.get("/report/:interviewId", authMiddleware.authUser, interviewController.getInterviewReportByIdController)
+
+
+/**
+ * @route GET /api/interview/
+ * @description get all interview reports of logged in user.
+ * @access private
+ */
+router.get("/", authMiddleware.authUser, interviewController.getAllInterviewReportsController)
+
+
+/**
+ * @route GET /api/interview/resume/pdf
+ * @description generate resume pdf on the basis of user self description, resume content and job description.
+ * @access private
+ */
+router.get("/resume/pdf/:interviewReportId", authMiddleware.authUser, interviewController.generateResumePdfController)
+
+/** 
+ * @route delete /api/interview/delete-report/interviewReport
+ * @description delete interview report using interview report id
+ * @access private
+ */
+router.delete("/delete-report/:interviewReportId", authMiddleware.authUser, interviewController.deleteInterviewReportController)
+
+
 module.exports=router;
