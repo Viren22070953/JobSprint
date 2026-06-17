@@ -1,6 +1,6 @@
-# HireLens — AI-Powered Resume Analyzer & Job Matcher
+# JobSprint — AI-Powered Resume Analyzer & Job Matcher
 
-HireLens is a full-stack web application that leverages **Generative AI** to help job seekers evaluate their resumes, match them against job descriptions, and prepare for interviews with a personalized roadmap.
+JobSprint is a full-stack web application that leverages **Generative AI** to help job seekers evaluate their resumes, match them against job descriptions, and prepare for interviews with a personalized roadmap.
 
 ---
 
@@ -36,7 +36,7 @@ HireLens is a full-stack web application that leverages **Generative AI** to hel
 ---
 
 ## 📁 Project Structure
-HireLens/
+JobSprint/
 
 ├── client/                  # React frontend
 
@@ -77,8 +77,8 @@ HireLens/
 
 ```bash
 # Clone the repository
-git clone https://github.com/Viren22070953/HIreLens.git
-cd HIreLens
+git clone https://github.com/Viren22070953/JobSprint.git
+cd JobSprint
 ```
 
 ```bash
