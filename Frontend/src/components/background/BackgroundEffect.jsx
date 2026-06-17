@@ -4,7 +4,7 @@ const stars = Array.from({ length: 96 }, (_, index) => {
   const x = (index * 37) % 100;
   const y = (index * 61) % 100;
   const size = 1 + (index % 2);
-  const duration = 2.4 + (index % 7) * 0.29;
+  const duration = 2.4 + (index % 7) * 0.28;
   const delay = -(index % 13) * 0.22;
 
   return { x, y, size, duration, delay };
