@@ -1,184 +1,264 @@
-# JobSprint — AI-Powered Resume Analyzer & Job Matcher
+# JobSprint - AI-Powered Interview Preparation Platform
 
-JobSprint is a full-stack web application that leverages **Generative AI** to help job seekers evaluate their resumes, match them against job descriptions, and prepare for interviews with a personalized roadmap.
+JobSprint is a full-stack MERN application that helps job seekers prepare for interviews with AI-generated resume insights, job match scoring, technical questions, behavioral questions, skill gap analysis, and personalized preparation plans.
 
----
+The platform allows users to upload a resume, paste a job description, describe their goals, and receive a structured interview preparation report powered by Google Gemini.
 
-## 🚀 Live Demo
+## Live Demo
 
-> Coming Soon / [Deploy Link Here]
+- Frontend: https://job-sprint-opal.vercel.app
+- Backend API: https://jobsprint-370a.onrender.com
 
----
+## Features
 
-## 📌 Features
+- AI resume and job description analysis
+- Match score generation based on role fit
+- Resume upload support with PDF parsing
+- Personalized technical interview questions
+- Behavioral interview question generation
+- Skill gap analysis with severity levels
+- 7-day preparation roadmap
+- AI-generated resume PDF download
+- User authentication with JWT cookies
+- Secure password hashing with bcrypt
+- Protected dashboard and report routes
+- My Reports page for saved interview analyses
+- Delete report functionality
+- Profile page with authenticated user details
+- Responsive modern dark UI
+- Docker-ready frontend and backend setup
+- Production deployment support for Vercel and Render
 
-- 📄 **Resume Score** — AI analyzes your resume and gives a detailed score based on relevance and quality
-- 🎯 **Job Matching** — Matches your resume against a target job description to measure fitment
-- 🧠 **Technical Interview Questions** — Auto-generates role-specific technical questions based on your profile
-- 💬 **Behavioral Interview Questions** — Generates HR/behavioral questions tailored to your experience
-- 📊 **Skill Gap Analysis** — Identifies missing skills required for your target role
-- 🗓️ **Day-wise Preparation Plan** — Provides a structured, personalized study roadmap to bridge skill gaps
-- 🔐 **Secure Authentication** — JWT-based login/signup with Redis token blacklisting to prevent session reuse
-
----
-
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
-|-------|-----------|
-| **Frontend** | React.js, Tailwind CSS |
-| **Backend** | Node.js, Express.js |
-| **Database** | MongoDB |
-| **AI Integration** | Google Gemini API |
-| **Authentication** | JWT + Redis Token Blacklisting |
-| **Deployment** | Vercel (Frontend), Render (Backend) |
+| --- | --- |
+| Frontend | React, Vite, React Router, Axios, SCSS/CSS |
+| Backend | Node.js, Express.js |
+| Database | MongoDB, Mongoose |
+| Authentication | JWT, HTTP-only cookies, bcrypt |
+| AI | Google Gemini API via `@google/genai` |
+| File Handling | Multer, pdf-parse |
+| PDF Generation | Puppeteer, Chromium |
+| Deployment | Vercel, Render |
+| Containerization | Docker, Docker Compose, Nginx |
 
----
+## Project Structure
 
-## 📁 Project Structure
-JobSprint/
-
-├── client/                  # React frontend
-
-│   ├── src/
-
-│   │   ├── components/      # Reusable UI components
-
-│   │   ├── pages/           # Route-level pages
-
-│   │   └── services/        # API call handlers
-
-├── server/                  # Node.js + Express backend
-
-│   ├── controllers/         # Route logic
-
-│   ├── routes/              # API endpoints
-
-│   ├── models/              # Mongoose schemas
-
-│   ├── middleware/          # Auth, error handling
-
-│   └── utils/               # Gemini AI integration, helpers
-
-└── README.md
-
----
-
-## ⚙️ Getting Started
-
-### Prerequisites
-
-- Node.js v18+
-- MongoDB (local or Atlas)
-- Redis (local or Upstash)
-- Google Gemini API Key
-
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/Viren22070953/JobSprint.git
-cd JobSprint
+```text
+FullStack_GenAI/
+|-- Backend/
+|   |-- src/
+|   |   |-- controller/
+|   |   |-- db/
+|   |   |-- middleware/
+|   |   |-- models/
+|   |   |-- routes/
+|   |   `-- services/
+|   |-- Dockerfile
+|   |-- package.json
+|   `-- server.js
+|-- Frontend/
+|   |-- public/
+|   |-- src/
+|   |   |-- components/
+|   |   |-- features/
+|   |   |-- hooks/
+|   |   |-- pages/
+|   |   `-- styles/
+|   |-- Dockerfile
+|   |-- nginx.conf
+|   `-- package.json
+|-- docker-compose.yml
+`-- README.md
 ```
 
-```bash
-# Install server dependencies
-cd server
-npm install
-```
+## Core Workflow
 
-```bash
-# Install client dependencies
-cd ../client
-npm install
-```
+1. User registers or logs in.
+2. User starts a new analysis.
+3. User uploads a resume and enters a job description.
+4. Backend extracts resume text and sends structured context to Gemini.
+5. AI returns a match score, questions, skill gaps, and a preparation plan.
+6. The report is saved in MongoDB and displayed in the dashboard.
+7. User can view, download, or delete reports.
 
-### Environment Variables
+## API Endpoints
 
-Create a `.env` file inside the `server/` directory:
+### Authentication
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| POST | `/api/auth/register` | Register a new user |
+| POST | `/api/auth/login` | Log in user and set auth cookie |
+| GET | `/api/auth/logout` | Log out user and clear auth cookie |
+| GET | `/api/auth/get-me` | Get authenticated user profile |
+
+### Interview Reports
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| POST | `/api/interview/report-generate` | Generate AI interview report |
+| GET | `/api/interview/` | Get all reports for logged-in user |
+| GET | `/api/interview/report/:interviewId` | Get a single report |
+| GET | `/api/interview/resume/pdf/:interviewReportId` | Generate and download resume PDF |
+| DELETE | `/api/interview/delete-report/:interviewReportId` | Delete a report |
+
+## Environment Variables
+
+Create `Backend/.env`:
 
 ```env
-PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
-REDIS_URL=your_redis_url
-GEMINI_API_KEY=your_google_gemini_api_key
+GOOGLE_GENAI_API_KEY=your_google_genai_api_key
+NODE_ENV=production
 ```
 
-### Run the App
+Create `Frontend/.env`:
+
+```env
+VITE_API_URL=http://localhost:5000
+```
+
+For production on Vercel, set:
+
+```env
+VITE_API_URL=https://jobsprint-370a.onrender.com
+```
+
+## Local Development
+
+### Backend
 
 ```bash
-# Start backend
-cd server
+cd Backend
+npm install
 npm run dev
+```
 
-# Start frontend
-cd ../client
+Backend runs on:
+
+```text
+http://localhost:5000
+```
+
+### Frontend
+
+```bash
+cd Frontend
+npm install
+npm run dev
+```
+
+Frontend runs on:
+
+```text
+http://localhost:5173
+```
+
+## Docker Setup
+
+Build and run the complete project:
+
+```bash
+docker compose up --build
+```
+
+Run in detached mode:
+
+```bash
+docker compose up -d --build
+```
+
+Stop containers:
+
+```bash
+docker compose down
+```
+
+Docker URLs:
+
+```text
+Frontend: http://localhost:3000
+Backend:  http://localhost:5000
+```
+
+## Deployment
+
+### Backend on Render
+
+Recommended Render settings:
+
+```text
+Root Directory: Backend
+Runtime: Docker
+Dockerfile Path: ./Dockerfile
+```
+
+Required Render environment variables:
+
+```env
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+GOOGLE_GENAI_API_KEY=your_google_genai_api_key
+NODE_ENV=production
+```
+
+### Frontend on Vercel
+
+Recommended Vercel settings:
+
+```text
+Root Directory: Frontend
+Framework Preset: Vite
+Build Command: npm run build
+Output Directory: dist
+Install Command: npm install
+```
+
+Required Vercel environment variable:
+
+```env
+VITE_API_URL=https://jobsprint-370a.onrender.com
+```
+
+## Security
+
+- Passwords are hashed with bcrypt.
+- JWT tokens are stored in HTTP-only cookies.
+- Protected routes require a valid auth token.
+- Production cookies are configured for secure cross-site deployment.
+- Sensitive credentials are managed with environment variables.
+- `.env` files are ignored by Git.
+
+## Scripts
+
+### Backend
+
+```bash
+npm run dev
 npm start
 ```
 
----
+### Frontend
 
-## 🔌 API Endpoints
+```bash
+npm run dev
+npm run build
+npm run lint
+npm run preview
+```
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/register` | Register a new user |
-| POST | `/api/auth/login` | Login and receive JWT |
-| POST | `/api/auth/logout` | Blacklist token via Redis |
-| POST | `/api/analyze/resume` | Analyze resume + job description |
-| GET | `/api/analyze/questions` | Fetch generated interview questions |
-| GET | `/api/analyze/skillgap` | Fetch skill gap + preparation plan |
-
----
-
-## 🧠 How It Works
-
-User Input (Resume + Self Description + Job Description)
-
-│
-
-▼
-
-Google Gemini API
-
-│
-
-├──▶ Resume Score
-
-├──▶ Technical Questions
-
-├──▶ Behavioral Questions
-
-├──▶ Skill Gap Analysis
-
-└──▶ Day-wise Preparation Plan
-
----
-
-## 🔐 Security
-
-- Passwords hashed using **bcrypt**
-- **JWT tokens** for stateless authentication
-- **Redis-based token blacklisting** ensures logged-out tokens cannot be reused
-- Environment variables used for all sensitive credentials
-
----
-
-## 🙌 Author
+## Author
 
 **Viren Rahangdale**
-- 📧 [virenrahangdale12@gmail.com](mailto:virenrahangdale12@gmail.com)
-- 💼 [LinkedIn](https://linkedin.com/in/viren-rahangdale)
-- 🐙 [GitHub](https://github.com/Viren22070953)
-- 💻 [LeetCode](https://leetcode.com/u/Viren_Rahangdale)
 
----
+- Email: [virenrahangdale12@gmail.com](mailto:virenrahangdale12@gmail.com)
+- GitHub: [Viren22070953](https://github.com/Viren22070953)
+- LinkedIn: [viren-rahangdale](https://linkedin.com/in/viren-rahangdale)
+- LeetCode: [Viren_Rahangdale](https://leetcode.com/u/Viren_Rahangdale)
 
-## 📄 License
+## License
 
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-> ⭐ If you found this project helpful, please consider giving it a star!
+This project is licensed under the ISC License.
