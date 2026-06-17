@@ -1,13 +1,12 @@
 import { useAuth } from "../hooks/useAuth";
 import { Navigate } from "react-router-dom";
-import React from 'react'
 
 const Protected = ({children}) => {
     const { loading,user } = useAuth()
 
 
     if(loading){
-        return (<main><h1>Loading...</h1></main>)
+        return (<main className="loading-screen"><div className="loader" /><h1>Loading...</h1></main>)
     }
 
     if(!user){

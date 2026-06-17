@@ -1,373 +1,691 @@
-// ── Variables ────────────────────────────────────────────────────────────────
-$bg-page:        #0d1117;
-$bg-card:        #161b22;
-$bg-panel:       #1c2230;
-$bg-input:       #1e2535;
-$border-color:   #2a3348;
-$text-primary:   #e6edf3;
-$text-muted:     #7d8590;
-$accent:         #ff2d78;
-$accent-alt:     #ff6b9d;
-$badge-required: #ff2d78;
-$badge-best:     #ff2d78;
-$info-bg:        #1b2a4a;
-$info-border:    #2d4a7a;
-$font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$bg: #0b0f19;
+$panel: rgba(27, 24, 35, 0.76);
+$line: rgba(221, 214, 254, 0.16);
+$muted: #c9c2d4;
+$purple: #b88cff;
+$violet: #8b5cf6;
+$gold: #f7c948;
+$green: #34d399;
+$red: #fb7185;
 
-// ── Page Shell ───────────────────────────────────────────────────────────────
-.home-page {
-    width: 100%;
-    min-height: 100vh;
-    background-color: $bg-page;
-    color: $text-primary;
-    font-family: $font-stack;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 1.5rem;
-    gap: 2rem;
+.landing-page,
+.app-shell {
+  min-height: 100vh;
+  background:
+    linear-gradient(135deg, rgba(99, 102, 241, 0.08), transparent 34%),
+    linear-gradient(235deg, rgba(139, 92, 246, 0.1), transparent 38%),
+    $bg;
+  color: #f6f2ff;
 }
 
-// ── Page Header ──────────────────────────────────────────────────────────────
-.page-header {
-    text-align: center;
+.marketing-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  min-height: 4.6rem;
+  padding: 0 1.5rem;
+  border-bottom: 1px solid $line;
+  background: rgba(11, 15, 25, 0.82);
+  backdrop-filter: blur(18px);
 
-    h1 {
-        font-size: 2.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-        color: $text-primary;
-    }
+  &__links,
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+  }
+
+  &__links {
+    justify-content: center;
+    color: #d8d2e4;
+  }
+
+  &__actions {
+    justify-content: flex-end;
+  }
+
+  a {
+    text-decoration: none;
+    font-weight: 700;
+  }
+}
+
+.hero-section {
+  min-height: calc(100vh - 4.6rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(22rem, 38rem);
+  align-items: center;
+  gap: 5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 7rem 1.5rem 5rem;
+
+  h1 {
+    max-width: 42rem;
+    margin-top: 1.5rem;
+    font-size: clamp(2.7rem, 6vw, 5.6rem);
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+
+  p:not(.eyebrow) {
+    max-width: 38rem;
+    margin-top: 1.35rem;
+    color: $muted;
+    font-size: 1.06rem;
+    line-height: 1.75;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+}
+
+.report-preview {
+  position: relative;
+  padding: 1.4rem;
+  border: 1px solid $line;
+  background: rgba(30, 27, 39, 0.84);
+  box-shadow: 0 30px 120px rgba(139, 92, 246, 0.22);
+
+  .verified-badge {
+    position: absolute;
+    right: -1.2rem;
+    top: -1.5rem;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid rgba(221, 214, 254, 0.24);
+    background: rgba(28, 25, 36, 0.95);
+    color: #f8f2d5;
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  &__header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
 
     p {
-        color: $text-muted;
-        font-size: 0.95rem;
-        max-width: 480px;
-        margin: 0 auto;
-        line-height: 1.6;
-    }
-
-    .highlight {
-        color: $accent;
-    }
-}
-
-// ── Main Card ─────────────────────────────────────────────────────────────────
-.interview-card {
-    width: 100%;
-    max-width: 900px;
-    background-color: $bg-card;
-    border: 1px solid $border-color;
-    border-radius: 1rem;
-    overflow: hidden;
-
-    &__body {
-        display: flex;
-        min-height: 520px;
-    }
-
-    &__footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1rem 1.5rem;
-        border-top: 1px solid $border-color;
-
-        .footer-info {
-            font-size: 0.8rem;
-            color: $text-muted;
-        }
-    }
-}
-
-// ── Panels ────────────────────────────────────────────────────────────────────
-.panel-divider {
-    width: 1px;
-    background-color: $border-color;
-    flex-shrink: 0;
-}
-
-.panel {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1.5rem;
-
-    &__header {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 0.25rem;
-
-        h2 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: $text-primary;
-            flex: 1;
-        }
-    }
-
-    &__icon {
-        display: flex;
-        align-items: center;
-        color: $accent;
-    }
-
-    &__textarea {
-        flex: 1;
-        width: 100%;
-        background-color: $bg-input;
-        border: 1px solid $border-color;
-        border-radius: 0.5rem;
-        padding: 0.75rem 1rem;
-        color: $text-primary;
-        font-family: $font-stack;
-        font-size: 0.875rem;
-        resize: none;
-        outline: none;
-        transition: border-color 0.2s;
-        line-height: 1.5;
-
-        &::placeholder {
-            color: $text-muted;
-        }
-
-        &:focus {
-            border-color: $accent;
-        }
-
-        &--short {
-            flex: unset;
-            height: 96px;
-        }
-    }
-
-    &--left {
-        position: relative;
-
-        .char-counter {
-            position: absolute;
-            bottom: 2.25rem;
-            right: 2rem;
-            font-size: 0.75rem;
-            color: $text-muted;
-        }
-    }
-
-    &--right {
-        gap: 0.75rem;
-    }
-}
-
-// ── Badges ────────────────────────────────────────────────────────────────────
-.badge {
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 0.15rem 0.5rem;
-    border-radius: 0.3rem;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-
-    &--required {
-        background-color: rgba($badge-required, 0.15);
-        color: $badge-required;
-        border: 1px solid rgba($badge-required, 0.3);
-    }
-
-    &--best {
-        background-color: rgba($badge-best, 0.15);
-        color: $badge-best;
-        border: 1px solid rgba($badge-best, 0.3);
-    }
-}
-
-// ── Section Label ─────────────────────────────────────────────────────────────
-.section-label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: $text-primary;
-    margin-bottom: 0.25rem;
-}
-
-// ── Dropzone ──────────────────────────────────────────────────────────────────
-.upload-section {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.dropzone {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.35rem;
-    padding: 1.5rem 1rem;
-    background-color: $bg-input;
-    border: 2px dashed $border-color;
-    border-radius: 0.6rem;
-    cursor: pointer;
-    transition: border-color 0.2s, background-color 0.2s;
-
-    &:hover {
-        border-color: $accent;
-        background-color: rgba($accent, 0.05);
-    }
-
-    &__icon {
-        color: $accent;
-        margin-bottom: 0.25rem;
-    }
-
-    &__title {
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: $text-primary;
-        margin: 0;
-    }
-
-    &__subtitle {
-        font-size: 0.75rem;
-        color: $text-muted;
-        margin: 0;
-    }
-}
-
-// ── OR Divider ────────────────────────────────────────────────────────────────
-.or-divider {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: $text-muted;
-    font-size: 0.75rem;
-
-    &::before,
-    &::after {
-        content: '';
-        flex: 1;
-        height: 1px;
-        background-color: $border-color;
+      margin: 0;
+      color: #fff;
+      font-weight: 800;
     }
 
     span {
-        white-space: nowrap;
-    }
-}
-
-// ── Self Description ──────────────────────────────────────────────────────────
-.self-description {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-// ── Info Box ──────────────────────────────────────────────────────────────────
-.info-box {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.6rem;
-    padding: 0.75rem 1rem;
-    background-color: $info-bg;
-    border: 1px solid $info-border;
-    border-radius: 0.5rem;
-
-    &__icon {
-        flex-shrink: 0;
-        color: #4a90e2;
-        margin-top: 1px;
+      color: $muted;
+      font-size: 0.82rem;
     }
 
-    p {
-        margin: 0;
-        font-size: 0.8rem;
-        color: #8ab4f8;
-        line-height: 1.5;
-
-        strong {
-            color: $text-primary;
-        }
+    strong {
+      color: #d8c7ff;
+      font-size: 2.2rem;
     }
+  }
 }
 
-// ── Generate Button ───────────────────────────────────────────────────────────
-.generate-btn {
+.report-preview__avatar {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  border-radius: 999px;
+  background: #7c5ac4;
+
+  svg {
+    width: 1.1rem;
+    fill: #efe7ff;
+  }
+}
+
+.preview-bar {
+  height: 0.5rem;
+  margin: 1.2rem 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+
+  span {
+    display: block;
+    width: 92%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #8b5cf6, #d8b4fe);
+  }
+}
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+
+  div {
+    min-height: 4.2rem;
+    padding: 0.8rem;
+    border: 1px solid $line;
+    background: rgba(255, 255, 255, 0.035);
+  }
+
+  span,
+  strong {
+    display: block;
+  }
+
+  span {
+    color: $muted;
+    font-size: 0.72rem;
+  }
+
+  strong {
+    margin-top: 0.25rem;
+    color: #f7c948;
+  }
+}
+
+.section-heading {
+  max-width: 52rem;
+  margin: 0 auto 2.4rem;
+  text-align: center;
+
+  h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  p {
+    margin-top: 0.8rem;
+    color: $muted;
+  }
+}
+
+.features-section,
+.how-section,
+.cta-band {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.feature-card {
+  min-height: 14rem;
+  padding: 1.7rem;
+  border: 1px solid $line;
+  background: $panel;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+
+  &--wide {
+    grid-column: span 2;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: rgba(184, 140, 255, 0.52);
+    box-shadow: 0 18px 70px rgba(139, 92, 246, 0.2);
+  }
+
+  &__icon {
+    color: #d8c7ff;
+    font-size: 1.6rem;
+  }
+
+  h3 {
+    margin-top: 1.2rem;
+    font-size: 1.55rem;
+  }
+
+  p {
+    margin-top: 0.7rem;
+    color: $muted;
+    line-height: 1.65;
+  }
+}
+
+.steps-line {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    top: 1.4rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
+  }
+}
+
+.step {
+  position: relative;
+  text-align: center;
+
+  span {
+    display: grid;
+    width: 3rem;
+    height: 3rem;
+    place-items: center;
+    margin: 0 auto 1rem;
+    border: 1px solid rgba(221, 214, 254, 0.3);
+    border-radius: 999px;
+    background: #211c2c;
+    font-weight: 900;
+  }
+
+  p {
+    max-width: 18rem;
+    margin: 0.55rem auto 0;
+    color: $muted;
+    line-height: 1.55;
+  }
+}
+
+.cta-band {
+  margin-bottom: 4rem;
+  border: 1px solid $line;
+  background: rgba(255, 255, 255, 0.045);
+  text-align: center;
+
+  h2 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+  }
+
+  p {
+    margin: 1rem 0 2rem;
+    color: $muted;
+  }
+}
+
+.site-footer {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+  align-items: center;
+  padding: 1.7rem 1.5rem;
+  border-top: 1px solid $line;
+  background: #100d14;
+
+  div {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, $accent 0%, darken($accent, 10%) 100%);
-    color: #fff;
-    font-size: 0.9rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 0.5rem;
+    gap: 1.6rem;
+  }
+
+  a {
+    color: #d8d2e4;
+    text-decoration: none;
+    font-weight: 700;
+  }
+
+  p {
+    justify-self: end;
+    color: $muted;
+  }
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 19rem minmax(0, 1fr);
+}
+
+.app-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 1.4rem 1.1rem;
+  border-right: 1px solid $line;
+  background: rgba(20, 22, 31, 0.92);
+
+  &__brand {
+    margin-bottom: 2.4rem;
+  }
+
+  nav {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  nav button,
+  &__bottom button {
+    min-height: 3rem;
+    border: 0;
+    border-radius: 0.65rem;
+    background: none;
+    color: #ddd7e7;
     cursor: pointer;
-    transition: opacity 0.2s, transform 0.1s;
-    font-family: $font-stack;
+    text-align: left;
+    font-weight: 800;
+    padding: 0 0.8rem;
+  }
 
-    &:hover {
-        opacity: 0.9;
-    }
+  nav button.active,
+  nav button:hover {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.78), rgba(139, 92, 246, 0.78));
+    color: #fff;
+  }
 
-    &:active {
-        transform: scale(0.98);
-    }
+  &__bottom {
+    margin-top: auto;
+    display: grid;
+    gap: 0.65rem;
+  }
 }
 
-.recent-reports{
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+.pro-card {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.9rem;
+  border: 1px solid rgba(247, 201, 72, 0.32);
+  border-radius: 0.85rem;
+  background: rgba(247, 201, 72, 0.09);
+  color: #f8dc75;
+
+  span {
+    color: #efe1a3;
+    font-size: 0.82rem;
+  }
+}
+
+.dashboard-page,
+.reports-page {
+  min-height: 100vh;
+  padding: 3rem;
+}
+
+.dashboard-topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+
+  h1 {
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    line-height: 1.05;
+  }
+
+  p {
+    margin-top: 0.55rem;
+    color: $muted;
+    font-size: 1.1rem;
+  }
+}
+
+.analysis-stack {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 88rem;
+}
+
+.analysis-panel {
+  padding: 1.35rem;
+  border: 1px solid $line;
+  border-radius: 0.9rem;
+  background: $panel;
+
+  textarea {
     width: 100%;
-    max-width: 900px;
+    min-height: 13rem;
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid rgba(221, 214, 254, 0.2);
+    border-radius: 0.75rem;
+    outline: none;
+    resize: vertical;
+    background: rgba(255, 255, 255, 0.045);
+    color: #f8f4ff;
+    line-height: 1.6;
+  }
 
-    .reports-list{
-        display: flex;
-        gap: 0.75rem;
-        flex-wrap: wrap;
-
-        .report-item{
-            background-color: $bg-card;
-            border: 1px solid $border-color;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            cursor: pointer;
-            flex-shrink: 0;
-
-            .match-score {
-                font-size: 0.8rem;
-                font-weight: 600;
-                color: $accent;
-                align-items: flex-start;
-            }
-        }
-    }
+  textarea:focus {
+    border-color: rgba(184, 140, 255, 0.7);
+  }
 }
 
+.panel-title {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.8rem;
 
-// ── Page Footer ───────────────────────────────────────────────────────────────
-.page-footer {
-    display: flex;
-    gap: 1.5rem;
+  > span {
+    color: #d8c7ff;
+    font-size: 1.6rem;
+  }
 
-    a {
-        font-size: 0.8rem;
-        color: $text-muted;
-        text-decoration: none;
-        transition: color 0.2s;
+  h2 {
+    font-size: 1.2rem;
+  }
 
-        &:hover {
-            color: $text-primary;
-        }
-    }
+  p {
+    margin-top: 0.2rem;
+    color: $muted;
+  }
+}
+
+.mode-toggle {
+  display: flex;
+  padding: 0.25rem;
+  border: 1px solid $line;
+  border-radius: 0.7rem;
+  background: rgba(255, 255, 255, 0.04);
+
+  button {
+    min-height: 2.2rem;
+    border: 0;
+    border-radius: 0.5rem;
+    background: transparent;
+    color: $muted;
+    cursor: pointer;
+    padding: 0 0.85rem;
+    font-weight: 800;
+  }
+
+  button.active {
+    background: #7c5ac4;
+    color: #fff;
+  }
+}
+
+.dropzone {
+  display: grid;
+  place-items: center;
+  gap: 0.5rem;
+  min-height: 12rem;
+  margin-top: 1rem;
+  border: 2px dashed rgba(221, 214, 254, 0.25);
+  border-radius: 0.85rem;
+  background: rgba(255, 255, 255, 0.035);
+  color: #f6f2ff;
+  cursor: pointer;
+  text-align: center;
+
+  &__icon {
+    color: #d8c7ff;
+    font-size: 2.6rem;
+  }
+
+  small {
+    color: $muted;
+  }
+}
+
+.analyze-button {
+  width: min(100%, 88rem);
+  margin-top: 1rem;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.reports-toolbar {
+  display: flex;
+  gap: 1rem;
+
+  input {
+    min-width: 20rem;
+    height: 3rem;
+    padding: 0 1rem;
+    border: 1px solid $line;
+    border-radius: 999px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.035);
+    color: #f6f2ff;
+  }
+}
+
+.reports-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.report-card,
+.new-report-card {
+  min-height: 17rem;
+  padding: 1.8rem;
+  border: 1px solid $line;
+  border-radius: 0.9rem;
+  background: $panel;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.report-card:hover,
+.new-report-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(184, 140, 255, 0.52);
+  box-shadow: 0 18px 70px rgba(139, 92, 246, 0.18);
+}
+
+.report-card__top,
+.report-card__footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+
+.report-card__icon {
+  display: grid;
+  width: 3.4rem;
+  height: 3.4rem;
+  place-items: center;
+  border-radius: 0.7rem;
+  background: rgba(184, 140, 255, 0.16);
+  color: #d8c7ff;
+}
+
+.score-badge {
+  display: grid;
+  text-align: right;
+  font-size: 2.2rem;
+
+  small {
+    color: #f6f2ff;
+    font-size: 0.85rem;
+  }
+
+  &.high {
+    color: $green;
+  }
+
+  &.mid {
+    color: $gold;
+  }
+
+  &.low {
+    color: $red;
+  }
+}
+
+.report-card h2 {
+  margin-top: 1.7rem;
+  font-size: 1.65rem;
+}
+
+.report-card p,
+.report-card__footer span {
+  color: $muted;
+}
+
+.report-card__footer {
+  margin-top: 2rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid $line;
+}
+
+.new-report-card {
+  display: grid;
+  place-items: center;
+  border-style: dashed;
+  color: $muted;
+  cursor: pointer;
+  font-weight: 800;
+
+  span {
+    display: grid;
+    width: 4.6rem;
+    height: 4.6rem;
+    place-items: center;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #d8c7ff;
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 980px) {
+  .marketing-nav,
+  .site-footer {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+
+  .marketing-nav__links,
+  .marketing-nav__actions,
+  .site-footer div {
+    flex-wrap: wrap;
+  }
+
+  .hero-section,
+  .features-grid,
+  .steps-line,
+  .reports-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-card--wide {
+    grid-column: auto;
+  }
+
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .app-sidebar {
+    position: static;
+    height: auto;
+  }
+
+  .dashboard-page,
+  .reports-page {
+    padding: 1.2rem;
+  }
+
+  .dashboard-topbar,
+  .panel-title,
+  .reports-toolbar {
+    display: grid;
+  }
 }

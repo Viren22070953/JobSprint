@@ -1,66 +1,135 @@
-import React,{useState} from 'react'
-import { useNavigate, Link } from 'react-router'
-import { useAuth } from '../hooks/useAuth'
+import { useMemo, useState } from "react";
+import { useNavigate, Link } from "react-router";
+import { useAuth } from "../hooks/useAuth";
+import "../auth.form.scss";
 
 const Register = () => {
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-    const navigate = useNavigate()
-    const [ username, setUsername ] = useState("")
-    const [ email, setEmail ] = useState("")
-    const [ password, setPassword ] = useState("")
+  const { loading, handleRegister } = useAuth();
 
-    const {loading,handleRegister} = useAuth()
-    
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try{
-            await handleRegister({username,email,password})
-            navigate("/")
+  const strength = useMemo(() => {
+    if (password.length >= 12) return "strong";
+    if (password.length >= 8) return "medium";
+    return "low";
+  }, [password]);
 
-        }catch(err){
-            alert(err.response?.data?.message || "Invalid email or password");
-        }
-        
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
     }
 
-    if(loading){
-        return (<main><h1>Loading.......</h1></main>)
+    try {
+      await handleRegister({ username, email, password });
+      navigate("/dashboard");
+    } catch (err) {
+      alert(err.response?.data?.message || "Invalid email or password");
     }
+  };
 
+  if (loading) {
     return (
-        <main>
-            <div className="form-container">
-                <h1>Register</h1>
+      <main className="loading-screen">
+        <div className="loader" />
+        <h1>Loading...</h1>
+      </main>
+    );
+  }
 
-                <form onSubmit={handleSubmit}>
+  return (
+    <main className="auth-page auth-page--register">
+      <section className="auth-hero">
+        <p className="eyebrow">✦ Next-gen career intelligence</p>
+        <h1>Master Your Next Interview</h1>
+        <p>Join professionals using JobSprint's AI-driven feedback loops to land roles with stronger preparation.</p>
+        <div className="auth-benefits">
+          <article><strong>Real-time feedback</strong><span>Tone, pace, clarity, and answer structure.</span></article>
+          <article><strong>Behavioral analysis</strong><span>Insights into emotional intelligence and soft skills.</span></article>
+        </div>
+      </section>
 
-                    <div className="input-group">
-                        <label htmlFor="username">Username</label>
-                        <input
-                            onChange={(e) => { setUsername(e.target.value) }}
-                            type="text" id="username" name='username' placeholder='Enter username' />
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="email">Email</label>
-                        <input
-                            onChange={(e) => { setEmail(e.target.value) }}
-                            type="email" id="email" name='email' placeholder='Enter email address' />
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="password">Password</label>
-                        <input
-                            onChange={(e) => { setPassword(e.target.value) }}
-                            type="password" id="password" name='password' placeholder='Enter password' />
-                    </div>
+      <section className="auth-card">
+        <Link className="brand" to="/">
+          <span className="brand__mark">⚡</span>
+          JobSprint
+        </Link>
+        <h1>Create your account</h1>
+        <p>Start your 7-day free trial of JobSprint Pro.</p>
 
-                    <button className='button primary-button' >Register</button>
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <label htmlFor="username">Full Name</label>
+            <input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              type="text"
+              id="username"
+              name="username"
+              placeholder="John Doe"
+            />
+          </div>
 
-                </form>
+          <div className="input-group">
+            <label htmlFor="email">Email Address</label>
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              id="email"
+              name="email"
+              placeholder="name@company.com"
+            />
+          </div>
 
-                <p>Already have an account? <Link to={"/login"} >Login</Link> </p>
-            </div>
-        </main>
-    )
-}
+          <div className="input-group">
+            <label htmlFor="password">Password</label>
+            <input
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              id="password"
+              name="password"
+              placeholder="••••••••"
+            />
+            <div className={`strength-bar strength-bar--${strength}`}><span /></div>
+            <small>At least 8 characters</small>
+          </div>
 
-export default Register
+          <div className="input-group">
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              placeholder="••••••••"
+            />
+          </div>
+
+          <label className="check-row">
+            <input type="checkbox" required />
+            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+          </label>
+
+          <button className="button primary-button">Create Account →</button>
+        </form>
+
+        <div className="auth-divider"><span>Or register with</span></div>
+        <div className="social-row">
+          <button>Google</button>
+          <button>Apple</button>
+        </div>
+        <p className="switch-link">Already have an account? <Link to="/login">Log in</Link></p>
+      </section>
+    </main>
+  );
+};
+
+export default Register;

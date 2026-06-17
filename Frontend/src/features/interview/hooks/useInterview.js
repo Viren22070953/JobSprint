@@ -1,4 +1,4 @@
-import { getAllInterviewReports, generateInterviewReport, getInterviewReportById, generateResumePdf } from "../services/interview.api"
+import { getAllInterviewReports, generateInterviewReport, getInterviewReportById, generateResumePdf, deleteInterviewReport } from "../services/interview.api"
 import { useContext, useEffect } from "react"
 import { InterviewContext } from "../interview.context"
 import { useParams } from "react-router"
@@ -85,14 +85,32 @@ export const useInterview = () => {
   }
 };
 
+    const deleteReport = async (interviewReportId) => {
+        setLoading(true)
+        try {
+            const response = await deleteInterviewReport({ interviewReportId })
+            setReports((currentReports) => currentReports.filter((item) => item._id !== interviewReportId))
+            if (report?._id === interviewReportId) {
+                setReport(null)
+            }
+            return response
+        } catch (error) {
+            console.log(error)
+            throw error
+        } finally {
+            setLoading(false)
+        }
+    }
+
     useEffect(() => {
         if (interviewId) {
             getReportById(interviewId)
         } else {
             getReports()
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ interviewId ])
 
-    return { loading, report, reports, generateReport, getReportById, getReports, getResumePdf }
+    return { loading, report, reports, generateReport, getReportById, getReports, getResumePdf, deleteReport }
 
 }
