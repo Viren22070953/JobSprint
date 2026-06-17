@@ -6,8 +6,7 @@ The platform allows users to upload a resume, paste a job description, describe 
 
 ## Live Demo
 
-- Frontend: https://job-sprint-opal.vercel.app
-- Backend API: https://jobsprint-370a.onrender.com
+Website Link : https://job-sprint-opal.vercel.app/
 
 ## Features
 
