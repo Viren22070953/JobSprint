@@ -1821,9 +1821,7 @@
 
 .question-detail {
   display: grid;
-  grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.3fr);
-  align-items: start;
-  gap: 18px;
+  gap: 14px;
   padding: 20px;
 }
 
@@ -1854,7 +1852,6 @@
 
 .copy-answer {
   width: fit-content;
-  grid-column: 2;
 }
 
 .skill-gap-panel {
@@ -2226,14 +2223,6 @@
   .accordion-card__meta span {
     min-width: 0;
     border-radius: 12px;
-  }
-
-  .question-detail {
-    grid-template-columns: 1fr;
-  }
-
-  .copy-answer {
-    grid-column: auto;
   }
 
   .reading-progress {

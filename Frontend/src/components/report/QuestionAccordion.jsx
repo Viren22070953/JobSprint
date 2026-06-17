@@ -23,10 +23,6 @@ const QuestionAccordion = ({ question, index, open, onToggle, accent = "indigo",
     >
       <div className="question-detail">
         <div>
-          <span className="detail-label">Intention</span>
-          <p>{question.intention || "Evaluate how clearly you reason through role-specific interview problems."}</p>
-        </div>
-        <div>
           <span className="detail-label">Suggested Answer</span>
           <pre>{question.answer || "Structure the answer with context, tradeoffs, implementation details, and measurable impact."}</pre>
         </div>
