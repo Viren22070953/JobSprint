@@ -16,7 +16,7 @@ const QuestionAccordion = ({ question, index, open, onToggle, accent = "indigo",
     <AccordionCard
       accent={accent}
       badge={`Q${index + 1}`}
-      meta={<><span>{question.intention || "Role Fit"}</span><em>{difficulty}</em></>}
+      meta={<><span><strong>Intention:</strong> {question.intention || "Role Fit"}</span><em>{difficulty}</em></>}
       open={open}
       title={question.question}
       onToggle={onToggle}

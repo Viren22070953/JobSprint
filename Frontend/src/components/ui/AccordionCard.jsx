@@ -5,8 +5,10 @@ const AccordionCard = ({ open, onToggle, badge, title, meta, children, accent = 
   <GlassCard className={`accordion-card accordion-card--${accent}`}>
     <button className="accordion-card__trigger" onClick={onToggle} type="button">
       <span className="accordion-card__badge">{badge}</span>
-      <strong>{title}</strong>
-      {meta && <span className="accordion-card__meta">{meta}</span>}
+      <span className="accordion-card__content">
+        <strong>{title}</strong>
+        {meta && <span className="accordion-card__meta">{meta}</span>}
+      </span>
       <ChevronDown className={open ? "is-open" : ""} />
     </button>
     <div className={`accordion-card__panel ${open ? "is-open" : ""}`}>{children}</div>

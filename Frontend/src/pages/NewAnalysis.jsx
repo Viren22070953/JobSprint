@@ -1,4 +1,4 @@
-import { BrainCircuit, Briefcase, Check, CloudUpload, FileText, Sparkles, User, X } from "lucide-react";
+import { Briefcase, Check, CloudUpload, FileText, Sparkles, User, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthLayout from "../components/layout/AuthLayout.jsx";
@@ -107,37 +107,18 @@ const NewAnalysis = () => {
 
       {loading && (
         <div className="analysis-overlay">
-          <GlassCard className="analysis-loader match-loader">
-            <div className="match-loader__header">
-              <span><BrainCircuit size={22} /></span>
-              <div>
-                <h3>Comparing your fit</h3>
-                <p>{messages[messageIndex]}</p>
-              </div>
+          <GlassCard className="analysis-loader simple-report-loader">
+            <div className="simple-report-loader__icon">
+              <span className="mini-spinner" />
             </div>
-            <div className="match-loader__stage">
-              <div className="loader-profile">
-                <strong>Resume</strong>
-                <i style={{ "--bar": "86%" }} />
-                <i style={{ "--bar": "64%" }} />
-                <i style={{ "--bar": "92%" }} />
-              </div>
-              <div className="loader-orbit">
-                <span>{Math.max(progress, 12)}%</span>
-              </div>
-              <div className="loader-profile">
-                <strong>Job Role</strong>
-                <i style={{ "--bar": "78%" }} />
-                <i style={{ "--bar": "88%" }} />
-                <i style={{ "--bar": "70%" }} />
-              </div>
+            <div>
+              <h3>Generating your report</h3>
+              <p>{messages[messageIndex]}</p>
             </div>
-            <div className="loader-signal-row">
-              <span>Skills</span>
-              <span>Experience</span>
-              <span>Keywords</span>
+            <div className="progress-track">
+              <span style={{ width: `${progress}%` }} />
             </div>
-            <div className="progress-track progress-track--rainbow"><span style={{ width: `${progress}%` }} /></div>
+            <small>Please wait while JobSprint prepares your interview insights.</small>
           </GlassCard>
         </div>
       )}
