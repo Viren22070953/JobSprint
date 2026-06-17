@@ -12,6 +12,18 @@ dist
 dist-ssr
 *.local
 
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Docker local-only files
+docker-compose.override.yml
+.docker/
+docker-data/
+*.tar
+*.tar.gz
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
