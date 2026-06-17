@@ -4,6 +4,22 @@ const tokenBlacklistModel=require("../models/blacklist.model")
 const jwt=require("jsonwebtoken")
 const bcrypt=require("bcryptjs")
 
+function getCookieOptions(req){
+  const isSecureRequest=req.secure || req.headers["x-forwarded-proto"]==="https" || req.get("origin")?.startsWith("https://");
+
+  return {
+    httpOnly:true,
+    secure:isSecureRequest,
+    sameSite:isSecureRequest ? "none" : "lax",
+    maxAge:24 * 60 * 60 * 1000
+  }
+}
+
+function getClearCookieOptions(req){
+  const {maxAge, ...options}=getCookieOptions(req);
+  return options;
+}
+
 /** 
  * @name registerUserController
  * @description register a new user , expects username, email and password form req.body
@@ -46,7 +62,7 @@ async function registerUser(req,res){
       id:user._id, username:user.username
     },process.env.JWT_SECRET,{expiresIn:"1d"});
 
-    res.cookie("token",token);
+    res.cookie("token",token,getCookieOptions(req));
 
     res.status(201).json({
       message:"User Registered Succesfully",
@@ -107,7 +123,7 @@ async function loginUser(req,res){
       id:user._id , username:user.username
     },process.env.JWT_SECRET, {expiresIn:"1d"})
 
-    res.cookie("token",token);
+    res.cookie("token",token,getCookieOptions(req));
 
     res.status(200).json({
       message:"User Logged in succesfully",
@@ -141,7 +157,7 @@ async function logoutUser(req,res){
   if(token){
     await tokenBlacklistModel.create({token})
   }
-  res.clearCookie("token");
+  res.clearCookie("token",getClearCookieOptions(req));
 
   res.status(200).json({
     message:"User Logged out succesfully"
